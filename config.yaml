@@ -1,0 +1,20 @@
+initial_capital: 100000
+data_file: "stock_data/600016.csv"  # Ensure this matches your CSV file name
+
+strategies:
+  moving_average:
+    short_window: 3  # Shortened short MA period (originally 20, now 3)
+    long_window: 5   # Shortened long MA period (originally 20, now 5)
+  
+  rsi:
+    period: 6        # Shortened RSI period (originally 14, now 6, suitable for 12 data points)
+    overbought_level: 70
+    oversold_level: 30
+  
+  macd:
+    fast_period: 4   # Shortened MACD fast period (originally 12, now 4)
+    slow_period: 8   # Shortened MACD slow period (originally 26, now 8)
+    signal_period: 2 # Shortened signal period (originally 9, now 2)
+  
+  ml:
+    window: 5        # Window size for prediction
