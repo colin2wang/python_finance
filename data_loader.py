@@ -34,6 +34,9 @@ class DataLoader:
 
             # Sort by date (ensure data is in chronological order)
             self.data = self.data.sort_values('日期')
+            
+            # Set date column as index
+            self.data.set_index('日期', inplace=True)
 
             # Convert numeric columns, remove percentage signs and convert to float
             numeric_columns = ['收盘', '开盘', '高', '低', '涨跌幅']

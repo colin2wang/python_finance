@@ -25,15 +25,15 @@ class Visualizer:
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
 
         # Plot price and trading signals
-        ax1.plot(data['日期'], data['收盘'], label='Closing Price', color='blue')
+        ax1.plot(data.index, data['收盘'], label='Closing Price', color='blue')
 
         # Mark buy and sell signals
         buy_signals = data[data['信号'] == 1]
         sell_signals = data[data['信号'] == -1]
 
-        ax1.scatter(buy_signals['日期'], buy_signals['收盘'],
+        ax1.scatter(buy_signals.index, buy_signals['收盘'],
                     marker='^', color='g', label='Buy Signal', alpha=1)
-        ax1.scatter(sell_signals['日期'], sell_signals['收盘'],
+        ax1.scatter(sell_signals.index, sell_signals['收盘'],
                     marker='v', color='r', label='Sell Signal', alpha=1)
 
         ax1.set_title(f'{strategy_name} Strategy Performance')
@@ -42,7 +42,7 @@ class Visualizer:
         ax1.grid(True)
 
         # Plot asset curve
-        ax2.plot(data['日期'], data['资产价值'], label='Strategy Assets', color='green')
+        ax2.plot(data.index, data['资产价值'], label='Strategy Assets', color='green')
         ax2.axhline(y=data['资产价值'].iloc[0], color='r', linestyle='--', label='Initial Capital')
 
         ax2.set_title('Asset Changes')
@@ -79,7 +79,7 @@ class Visualizer:
         plt.figure(figsize=(12, 6))
 
         for name, data in results_dict.items():
-            plt.plot(data['日期'], data['资产价值'], label=name)
+            plt.plot(data.index, data['资产价值'], label=name)
 
         plt.title('Strategy Performance Comparison')
         plt.xlabel('Date')
