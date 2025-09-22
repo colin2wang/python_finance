@@ -1,5 +1,7 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score
+import numpy as np
 
 from strategies.base_strategy import TradingStrategy
 
@@ -22,6 +24,7 @@ class RandomForestStrategy(TradingStrategy):
         window = self.params.get('window', 5)
         n_estimators = self.params.get('n_estimators', 100)
         max_depth = self.params.get('max_depth', 5)
+        cv_folds = self.params.get('cv_folds', 5)
         
         # Prepare feature data
         self.data['close_shifted'] = self.data['收盘'].shift(-1)  # Next day closing price
@@ -39,8 +42,15 @@ class RandomForestStrategy(TradingStrategy):
         X = self.data[feature_cols]
         y = self.data['price_change']
         
-        # Train the model
+        # Train the model with cross-validation
         model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, random_state=42)
+        
+        # Perform cross-validation to evaluate model performance
+        cv_scores = cross_val_score(model, X, y, cv=cv_folds, scoring='r2')
+        print(f"Random Forest Cross-Validation R2 Scores: {cv_scores}")
+        print(f"Average CV R2 Score: {np.mean(cv_scores):.4f} (+/- {np.std(cv_scores) * 2:.4f})")
+        
+        # Train the model on the entire dataset
         model.fit(X, y)
         
         # Make predictions

@@ -277,6 +277,7 @@ The Random Forest Strategy uses an ensemble of decision trees to predict future 
 - Trains a random forest regression model to predict future price changes
 - Generates buy signal when predicted change is positive
 - Generates sell signal when predicted change is negative
+- Uses cross-validation to evaluate model performance and prevent overfitting
 
 **Calculation Formula:**
 - $y = \frac{1}{n} \sum_{i=1}^{n} T_i(x)$
@@ -294,6 +295,7 @@ Where:
 - Provides feature importance rankings
 - Adaptable to changing market conditions
 - Objective decision-making based on data
+- Uses cross-validation to ensure model generalization
 
 **Disadvantages:**
 - Requires sufficient historical data for training
@@ -301,7 +303,7 @@ Where:
 - Requires expertise in machine learning and parameter tuning
 - Computationally more expensive than linear models
 
-This strategy demonstrates how ensemble methods can be applied to financial markets for predictive modeling.
+This strategy demonstrates how ensemble methods can be applied to financial markets for predictive modeling. The implementation includes cross-validation to evaluate model performance and ensure better generalization to unseen data.
 
 ### Strategy Comparison
 
