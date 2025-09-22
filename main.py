@@ -1,5 +1,5 @@
 from data_loader import DataLoader
-from strategies import MovingAverageStrategy, RSIStrategy, MACDStrategy, MLStrategy
+from strategies import MovingAverageStrategy, RSIStrategy, MACDStrategy, LinearRegressionStrategy, PolynomialRegressionStrategy
 from backtester import Backtester
 from visualizer import Visualizer
 import yaml
@@ -37,7 +37,11 @@ def main():
             data, 
             params=config['strategies']['macd']
         ),
-        'Machine Learning Strategy': MLStrategy(
+        'Linear Regression Strategy': LinearRegressionStrategy(
+            data, 
+            params=config['strategies'].get('ml', {})
+        ),
+        'Polynomial Regression Strategy': PolynomialRegressionStrategy(
             data, 
             params=config['strategies'].get('ml', {})
         )

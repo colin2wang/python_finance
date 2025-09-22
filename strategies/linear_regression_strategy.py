@@ -1,9 +1,10 @@
-from strategies.base_strategy import TradingStrategy
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-import numpy as np
 
-class MLStrategy(TradingStrategy):
+from strategies.base_strategy import TradingStrategy
+
+
+class LinearRegressionStrategy(TradingStrategy):
     """Machine Learning Strategy: Uses linear regression to predict price movements"""
 
     def generate_signals(self):

@@ -200,9 +200,9 @@ Where:
 - Lagging indicator due to moving averages
 - Requires parameter tuning
 
-#### 4. Machine Learning Strategy
+#### 4. Linear Regression Strategy
 
-The Machine Learning Strategy uses linear regression to predict future price movements based on historical data:
+The Linear Regression Strategy uses linear regression to predict future price movements based on historical data:
 
 **Principle:**
 - Uses historical closing prices as features
@@ -211,12 +211,12 @@ The Machine Learning Strategy uses linear regression to predict future price mov
 - Generates sell signal when predicted change is negative
 
 **Calculation Formula:**
-- $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_n x_n + \epsilon$
+- $y = eta_0 + eta_1 x_1 + eta_2 x_2 + ... + eta_n x_n + \epsilon$
 
 Where:
 - $y$ is the predicted price change
 - $x_i$ are the lagged closing prices (features)
-- $\beta_i$ are the regression coefficients
+- $eta_i$ are the regression coefficients
 - $\epsilon$ is the error term
 
 **Advantages:**
@@ -232,6 +232,40 @@ Where:
 
 This strategy demonstrates how machine learning techniques can be applied to financial markets for predictive modeling.
 
+#### 5. Polynomial Regression Strategy
+
+The Polynomial Regression Strategy extends the linear regression approach by using polynomial features to capture non-linear relationships in the data:
+
+**Principle:**
+- Uses historical closing prices as base features
+- Transforms features into polynomial terms to model non-linear patterns
+- Trains a polynomial regression model to predict future price changes
+- Generates buy signal when predicted change is positive
+- Generates sell signal when predicted change is negative
+
+**Calculation Formula:**
+- $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_n x_n + \beta_{n+1} x_1^2 + \beta_{n+2} x_1x_2 + ... + \beta_m x_n^2 + \epsilon$
+
+Where:
+- $y$ is the predicted price change
+- $x_i$ are the lagged closing prices (features)
+- $\beta_i$ are the regression coefficients
+- $\epsilon$ is the error term
+
+**Advantages:**
+- Can capture non-linear patterns in data
+- More flexible than linear regression
+- Adaptable to changing market conditions
+- Objective decision-making based on data
+
+**Disadvantages:**
+- Requires sufficient historical data for training
+- May overfit to historical data, especially with higher degree polynomials
+- Black box nature makes it difficult to interpret
+- Requires expertise in machine learning and parameter tuning
+
+This strategy demonstrates how polynomial regression can be used to model more complex relationships in financial data.
+
 ### Strategy Comparison
 
 When choosing a trading strategy, it's important to consider the market conditions and your trading objectives:
@@ -239,9 +273,24 @@ When choosing a trading strategy, it's important to consider the market conditio
 1. **Moving Average Strategy**: Best suited for trending markets where clear directional moves occur.
 2. **RSI Strategy**: Most effective in mean-reverting markets where prices tend to return to average levels.
 3. **MACD Strategy**: Useful for identifying changes in market momentum and works well in trending markets.
-4. **Machine Learning Strategy**: Offers potential for capturing complex patterns but requires careful validation to avoid overfitting.
+4. **Linear Regression Strategy**: Offers potential for capturing complex patterns but requires careful validation to avoid overfitting.
+5. **Polynomial Regression Strategy**: Can capture non-linear relationships in data, making it suitable for more complex market dynamics, but requires careful parameter tuning to prevent overfitting.
 
 In practice, combining multiple strategies or using different strategies for different market conditions often yields better results than relying on a single approach. The project's modular design makes it easy to experiment with different combinations and evaluate their performance through backtesting.
+
+#### Backtesting Results Summary
+
+The following table summarizes the backtesting results for each implemented strategy:
+
+| Strategy Name | Total Return(%) | Trades | Win Rate(%) | Max Drawdown(%) |
+|---------------|-----------------|--------|-------------|-----------------|
+| Moving Average Strategy | -11.98 | 318 | 35.85 | -41.54 |
+| RSI Strategy | -31.0 | 209 | 42.55 | -34.77 |
+| MACD Strategy | -14.53 | 1163 | 39.02 | -38.33 |
+| Linear Regression Strategy | 35.65 | 1388 | 74.2 | -13.13 |
+| Polynomial Regression Strategy | N/A | N/A | N/A | N/A |
+
+Note: The Polynomial Regression Strategy results are not yet available as it is a newly implemented strategy. Users are encouraged to run their own backtesting to evaluate its performance.
 
 ## Data
 
