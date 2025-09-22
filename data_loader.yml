@@ -1,0 +1,23 @@
+# Data Loader Configuration
+data_file: 'stock_data/600016.csv'
+
+# Column names in the CSV file
+column_names:
+  date: '日期'
+  close: '收盘'
+  open: '开盘'
+  high: '高'
+  low: '低'
+  change_percent: '涨跌幅'
+  volume: '交易量'
+
+# Numeric columns that need to be converted to float
+numeric_columns:
+  - '收盘'
+  - '开盘'
+  - '高'
+  - '低'
+  - '涨跌幅'
+
+# Volume column that needs special processing
+volume_column: '交易量'

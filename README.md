@@ -101,6 +101,8 @@ uv run python main.py --mode=backtest
 
 Project configuration is in the `config.yaml` file, where you can configure data sources, trading strategy parameters, etc.
 
+Data loading configuration is in the `data_loader.yml` file, where you can configure CSV file paths and column names. This makes it easier to adapt the project to different data sources without modifying the code.
+
 ## Strategy Development
 
 The project provides a flexible framework for developing custom trading strategies. Each strategy is implemented as a separate class in the `strategies/` directory, following a consistent interface that allows seamless integration with the backtesting engine.
@@ -266,6 +268,41 @@ Where:
 
 This strategy demonstrates how polynomial regression can be used to model more complex relationships in financial data.
 
+#### 6. Random Forest Strategy
+
+The Random Forest Strategy uses an ensemble of decision trees to predict future price movements based on historical data:
+
+**Principle:**
+- Uses historical closing prices as features
+- Trains a random forest regression model to predict future price changes
+- Generates buy signal when predicted change is positive
+- Generates sell signal when predicted change is negative
+
+**Calculation Formula:**
+- $y = \frac{1}{n} \sum_{i=1}^{n} T_i(x)$
+
+Where:
+- $y$ is the predicted price change
+- $T_i$ is the prediction of the $i$-th tree
+- $x$ are the lagged closing prices (features)
+- $n$ is the number of trees in the forest
+
+**Advantages:**
+- Can capture complex non-linear patterns in data
+- Less prone to overfitting compared to individual decision trees
+- Handles outliers well
+- Provides feature importance rankings
+- Adaptable to changing market conditions
+- Objective decision-making based on data
+
+**Disadvantages:**
+- Requires sufficient historical data for training
+- Black box nature makes it difficult to interpret
+- Requires expertise in machine learning and parameter tuning
+- Computationally more expensive than linear models
+
+This strategy demonstrates how ensemble methods can be applied to financial markets for predictive modeling.
+
 ### Strategy Comparison
 
 When choosing a trading strategy, it's important to consider the market conditions and your trading objectives:
@@ -275,6 +312,7 @@ When choosing a trading strategy, it's important to consider the market conditio
 3. **MACD Strategy**: Useful for identifying changes in market momentum and works well in trending markets.
 4. **Linear Regression Strategy**: Offers potential for capturing complex patterns but requires careful validation to avoid overfitting.
 5. **Polynomial Regression Strategy**: Can capture non-linear relationships in data, making it suitable for more complex market dynamics, but requires careful parameter tuning to prevent overfitting.
+6. **Random Forest Strategy**: Offers robust predictions by combining multiple decision trees, reducing overfitting risk, but requires careful parameter tuning and is computationally more expensive.
 
 In practice, combining multiple strategies or using different strategies for different market conditions often yields better results than relying on a single approach. The project's modular design makes it easy to experiment with different combinations and evaluate their performance through backtesting.
 
@@ -289,6 +327,7 @@ The following table summarizes the backtesting results for each implemented stra
 | MACD Strategy | -14.53 | 1163 | 39.02 | -38.33 |
 | Linear Regression Strategy | 35.65 | 1388 | 74.2 | -13.13 |
 | Polynomial Regression Strategy | N/A | N/A | N/A | N/A |
+| Random Forest Strategy | N/A | N/A | N/A | N/A |
 
 Note: The Polynomial Regression Strategy results are not yet available as it is a newly implemented strategy. Users are encouraged to run their own backtesting to evaluate its performance.
 
