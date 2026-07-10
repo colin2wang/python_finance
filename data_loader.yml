@@ -1,5 +1,5 @@
 # Data Loader Configuration
-data_file: 'stock_data/688981.csv'
+data_folder: 'stock_data'
 
 # Column names in the CSV file
 column_names:

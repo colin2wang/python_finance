@@ -1,5 +1,5 @@
 initial_capital: 100000
-data_file: "stock_data/600016.csv"  # Ensure this matches your CSV file name
+csv_file: "600016.csv"
 
 strategies:
   moving_average:
@@ -21,3 +21,5 @@ strategies:
     n_estimators: 100  # Number of trees in the random forest
     max_depth: 5       # Maximum depth of the trees
     cv_folds: 5        # Number of cross-validation folds
+    min_hold_days: 3  # Minimum days between trades
+    pred_threshold: 0.001  # Prediction threshold to trigger signal

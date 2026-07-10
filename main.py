@@ -18,8 +18,9 @@ def main():
     initial_capital = config.get('initial_capital', 100000)
     
     # 2. Load data
+    csv_file = config.get('csv_file', '688981.csv')
     print("Loading stock data...")
-    data_loader = DataLoader()
+    data_loader = DataLoader(csv_file)
     data = data_loader.get_data()
     print(f"Successfully loaded {len(data)} stock data entries")
     

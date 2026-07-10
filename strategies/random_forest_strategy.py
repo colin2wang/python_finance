@@ -56,10 +56,25 @@ class RandomForestStrategy(TradingStrategy):
         # Make predictions
         predictions = model.predict(X)
         
-        # Generate signals: buy when price is predicted to rise, sell when predicted to fall
+        # Extract parameters
+        min_hold_days = self.params.get('min_hold_days', 10)
+        pred_threshold = self.params.get('pred_threshold', 0.5)
+        
+        # Generate raw signals: buy when price is predicted to rise, sell when predicted to fall
+        self.data['原始信号'] = 0
+        self.data.loc[predictions > pred_threshold, '原始信号'] = 1   # Predicted rise, buy
+        self.data.loc[predictions < -pred_threshold, '原始信号'] = -1  # Predicted fall, sell
+        
+        # Filter signals with minimum hold period
         self.data['信号'] = 0
-        self.data.loc[predictions > 0, '信号'] = 1   # Predicted rise, buy
-        self.data.loc[predictions < 0, '信号'] = -1  # Predicted fall, sell
+        last_signal_idx = -min_hold_days  # Allow first signal immediately
+        
+        for i in range(len(self.data)):
+            if i - last_signal_idx >= min_hold_days:
+                raw_signal = self.data.iloc[i]['原始信号']
+                if raw_signal != 0:
+                    self.data.iloc[i, self.data.columns.get_loc('信号')] = raw_signal
+                    last_signal_idx = i
         
         # Keep only the last signal (as previous data was used for training)
         self.signals = self.data['信号']

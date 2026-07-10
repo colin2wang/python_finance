@@ -1,18 +1,41 @@
+import os
+import re
 import pandas as pd
 import yaml
+
+
+def _resolve_env_vars(config):
+    """Recursively resolve ${ENV_VAR} patterns in config values."""
+    if isinstance(config, dict):
+        return {k: _resolve_env_vars(v) for k, v in config.items()}
+    elif isinstance(config, list):
+        return [_resolve_env_vars(v) for v in config]
+    elif isinstance(config, str):
+        pattern = r'\$\{(\w+)(?:::-([^}]*))?\}'
+        def replacer(m):
+            env_val = os.getenv(m.group(1))
+            return env_val if env_val is not None else (m.group(2) if m.group(2) else '')
+        return re.sub(pattern, replacer, config)
+    return config
 
 
 class DataLoader:
     """Class for loading and preprocessing stock data from CSV files."""
     
-    def __init__(self):
+    def __init__(self, csv_file=None):
         """
         Initialize the DataLoader by loading the data file path from config.
+        
+        Args:
+            csv_file (str, optional): CSV file name (e.g., '688981.csv'). If None, uses default from config.
         """
         # Load configuration to get data file path and column names
         with open('data_loader.yml', 'r', encoding='utf-8') as f:
             config = yaml.safe_load(f)
-        self.data_file = config.get('data_file', '600016.csv')
+        config = _resolve_env_vars(config)
+        data_folder = config.get('data_folder', 'stock_data')
+        csv_default = config.get('csv_file', '600016.csv')
+        self.data_file = f"{data_folder}/{csv_file}" if csv_file else f"{data_folder}/{csv_default}"
         self.column_names = config.get('column_names', {})
         self.numeric_columns = config.get('numeric_columns', ['收盘', '开盘', '高', '低', '涨跌幅'])
         self.volume_column = config.get('volume_column', '交易量')
